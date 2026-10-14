@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Albert Camus — la lucidité, la révolte, la mesure</title>
+<meta name="description" content="Parcours interactif dans la pensée d'Albert Camus : l'absurde, la révolte, la mesure, ses engagements et ses refus.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --chaux:#EEF0EC; --surface:#E2E6E1; --encre:#1B1D1F; --pierre:#625B50;
+  --mer:#1F4F6E; --soleil:#D9A21B; --rouge:#B3261E; --montagne:#B9B3A6;
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --texte:"Literata",Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --chaux:#0E1820; --surface:#172530; --encre:#E7E3D8; --pierre:#A8A193;
+    --mer:#8DBEDB; --soleil:#E6C66A; --rouge:#E7766D; --montagne:#33424D;
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 4rem)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--chaux);color:var(--encre);font-family:var(--texte);font-size:1.0625rem;line-height:1.72;-webkit-font-smoothing:antialiased}
+a{color:var(--mer)}
+:focus-visible{outline:2px solid var(--mer);outline-offset:3px}
+img,svg{max-width:100%}
+
+nav.sommaire{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--chaux);border-bottom:1px solid var(--surface)}
+nav.sommaire ul{list-style:none;margin:0 auto;padding:.6rem 1.25rem;display:flex;gap:1.4rem;overflow-x:auto;max-width:62rem;scrollbar-width:none}
+nav.sommaire a{text-decoration:none;color:var(--pierre);font-size:.92rem;white-space:nowrap}
+nav.sommaire a:hover{color:var(--encre)}
+
+main{max-width:62rem;margin:0 auto;padding:0 1.25rem 6rem}
+section{padding:4.5rem 0 1rem;max-width:40rem}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.1;margin:0}
+h2{font-size:clamp(2rem,5vw,2.8rem);margin-bottom:1.2rem}
+h3{font-size:1.35rem;margin:1.8rem 0 .5rem}
+p{margin:0 0 1rem}
+.cite{font-family:var(--display);font-style:italic;font-size:clamp(1.35rem,3.4vw,1.8rem);line-height:1.3;margin:1.8rem 0;padding-left:1.1rem;border-left:2px solid var(--rouge)}
+.cite small{display:block;font-family:var(--texte);font-style:normal;font-size:.85rem;color:var(--pierre);margin-top:.5rem}
+.note{color:var(--pierre);font-size:.92rem}
+
+button{font:inherit;font-size:1rem;cursor:pointer;color:var(--encre);background:transparent;border:1px solid var(--encre);border-radius:2px;padding:.55rem 1.1rem}
+button:hover{background:var(--surface)}
+button[disabled]{opacity:.45;cursor:not-allowed}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#pousser{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+
+/* Couverture façon collection Blanche */
+.couverture{margin:2.5rem auto 0;max-width:46rem;border:2px solid var(--encre);padding:6px}
+.couverture>div{border:1px solid var(--rouge);padding:2.2rem 1.5rem 1.2rem;text-align:center}
+.couverture .auteur{font-family:var(--display);font-size:1.15rem;letter-spacing:.06em;margin-bottom:.6rem}
+.couverture h1{font-size:clamp(2.6rem,9vw,4.6rem);color:var(--rouge)}
+.couverture .sous{font-family:var(--display);font-style:italic;font-size:1.15rem;margin-top:.7rem}
+.couverture .editeur{font-family:var(--display);font-size:.95rem;margin-top:1.4rem;color:var(--pierre)}
+
+/* Sisyphe */
+.sisyphe{margin:2rem 0 0}
+.sisyphe svg{display:block;width:100%;height:auto;touch-action:none;user-select:none}
+.ciel{fill:var(--chaux)}
+.mont{fill:var(--montagne)}
+.pente{stroke:var(--encre);stroke-width:1.5;fill:none}
+.rocher{fill:var(--chaux);stroke:var(--encre);stroke-width:1.5}
+.trait{stroke:var(--encre);stroke-width:1.5;fill:none;stroke-linecap:round}
+.soleil{fill:var(--soleil);transition:opacity 1.2s ease,r 1.2s ease}
+.sisyphe .commande{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;margin-top:1rem}
+.sisyphe .etat{color:var(--pierre);font-size:.95rem;margin:0}
+.heureux{font-family:var(--display);font-style:italic;font-size:clamp(1.6rem,4.5vw,2.3rem);text-align:center;margin:1.5rem 0 0;min-height:1.4em;opacity:0;transition:opacity 1.6s ease}
+.heureux.visible{opacity:1}
+
+/* Absurde : question au monde */
+.monde{margin-top:1.5rem;padding:1.4rem;background:var(--surface)}
+.monde label{display:block;margin-bottom:.5rem}
+.monde .ligne{display:flex;gap:.6rem;flex-wrap:wrap}
+.monde input{flex:1 1 14rem;font:inherit;padding:.55rem .7rem;border:1px solid var(--pierre);border-radius:2px;background:var(--chaux);color:var(--encre)}
+.erreur{color:var(--rouge);font-size:.85rem;margin:.4rem 0 0;min-height:1.2em}
+.question{font-family:var(--display);font-style:italic;font-size:1.4rem;margin:1.2rem 0 .3rem;min-height:1.8em;transition:opacity 2.4s ease,filter 2.4s ease}
+.question.efface{opacity:0;filter:blur(6px)}
+.silence{color:var(--pierre);min-height:1.6em;margin:0;transition:opacity 1s ease}
+
+/* Trois chemins */
+.chemins{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0}
+.chemins button[aria-pressed="true"]{background:var(--encre);color:var(--chaux)}
+.reponse{min-height:7rem;border-top:1px solid var(--pierre);padding-top:1rem}
+.reponse h3{margin-top:0}
+.barre{text-decoration:line-through;text-decoration-color:var(--rouge);text-decoration-thickness:2px}
+
+/* Révolte : je → nous */
+.foule{position:relative;height:9rem;margin:1.2rem 0;border-bottom:1px solid var(--pierre)}
+.foule span{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--encre);transition:transform 1.1s cubic-bezier(.2,.8,.2,1),opacity .9s ease}
+.foule .pronom{position:absolute;right:0;bottom:.4rem;font-family:var(--display);font-style:italic;font-size:1.5rem;width:auto;height:auto;border-radius:0;background:none}
+
+/* Les Justes */
+.caleche{margin-top:1.2rem;padding:1.2rem;border:1px solid var(--pierre)}
+.caleche .revele{margin-top:1rem}
+.caleche .revele[hidden]{display:none}
+
+/* Mesure : Némésis et course du soleil */
+.journee svg{display:block;width:100%;height:auto;margin-top:1rem}
+.journee input[type=range]{width:100%;margin:1rem 0 .3rem;accent-color:var(--mer)}
+.bornes{display:flex;justify-content:space-between;font-size:.88rem;color:var(--pierre)}
+.moment{font-family:var(--display);font-size:clamp(1.8rem,5vw,2.4rem);margin:1.2rem 0 .4rem}
+.lecture{min-height:9em;margin:0}
+
+/* Miroirs */
+.miroirs{display:flex;flex-direction:column;gap:2.6rem;margin-top:1.8rem}
+.miroir{display:grid;grid-template-columns:1fr 4px 1fr;gap:1rem;align-items:start}
+.miroir .glace{align-self:stretch;border-left:4px double var(--pierre)}
+.miroir .nom{font-family:var(--display);font-size:1.6rem;line-height:1.15;margin:0}
+.miroir .nom span{display:inline-block;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.miroir .cycle{font-size:.85rem;color:var(--pierre);margin:.15rem 0 .6rem}
+.miroir p{font-size:.97rem}
+.miroir .reflet .fidele{transform:scaleX(-1)}
+.miroir[data-vu="true"] .reflet .fidele{transform:none}
+.miroir .reflet .deforme{transform:skewX(-14deg) scaleY(1.08);color:var(--rouge)}
+.miroir .statut{display:block;font-size:.82rem;color:var(--pierre);margin-top:.5rem;font-style:italic}
+.miroir .actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:.6rem}
+.miroir .actions button{font-size:.92rem;padding:.45rem .9rem}
+.miroir .actions button[aria-pressed="true"]{background:var(--encre);color:var(--chaux)}
+.miroir [hidden]{display:none!important}
+
+/* Mal nommer */
+.mots{display:flex;flex-direction:column;gap:.7rem;margin-top:1.2rem}
+.mots button{text-align:left;border-color:var(--pierre);display:flex;justify-content:space-between;gap:1rem;align-items:baseline}
+.mots .faux{font-style:italic}
+.mots .vrai{font-family:var(--display);font-size:1.15rem;opacity:0;transition:opacity .6s ease}
+.mots button[aria-pressed="true"] .faux{text-decoration:line-through;text-decoration-color:var(--rouge);color:var(--pierre)}
+.mots button[aria-pressed="true"] .vrai{opacity:1}
+
+/* Chronologie des engagements */
+.chrono{list-style:none;margin:1.5rem 0 0;padding:0;border-left:1px solid var(--pierre)}
+.chrono li{position:relative;padding:0 0 1.4rem 1.4rem}
+.chrono li::before{content:"";position:absolute;left:-5px;top:.6rem;width:9px;height:9px;border-radius:50%;background:var(--chaux);border:1px solid var(--encre)}
+.chrono .an{font-family:var(--display);font-size:1.3rem;display:block;line-height:1.2}
+.chrono details summary{cursor:pointer;font-weight:600}
+.chrono details p{margin:.4rem 0 0}
+
+/* Ni victimes ni bourreaux */
+.refus{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:1.4rem}
+.refus h3{margin-top:0;font-size:1.2rem}
+.refus ul{margin:0;padding-left:1.1rem}
+.refus li{margin-bottom:.5rem}
+@media (max-width:560px){.refus{grid-template-columns:1fr}}
+
+/* Algérie : la balance */
+.balance{margin:1.6rem 0;display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:1rem;text-align:center}
+.balance .plateau{border-top:2px solid var(--encre);padding-top:.7rem;font-size:.95rem}
+.balance .fleau{font-family:var(--display);font-size:1.15rem;padding:0 .3rem;max-width:9rem}
+@media (max-width:560px){.balance{grid-template-columns:1fr}.balance .fleau{max-width:none;order:-1}}
+
+/* Le procès des lectures */
+.filtres{margin:1.2rem 0 .4rem}
+.filtres p{margin:0 0 .4rem;font-size:.92rem;color:var(--pierre)}
+.filtres .chemins{margin:0 0 1rem}
+.filtres .chemins button{font-size:.92rem;padding:.4rem .8rem}
+.decompte{font-size:.92rem;color:var(--pierre);margin:.2rem 0 0}
+.temoins{list-style:none;margin:.8rem 0 0;padding:0}
+.temoin{border-top:1px solid var(--pierre);padding:1.1rem 0 .4rem}
+.temoin[hidden]{display:none}
+.temoin .qui{font-family:var(--display);font-size:1.3rem;line-height:1.2;margin:0}
+.temoin .ou{font-size:.9rem;color:var(--pierre);margin:.2rem 0 .5rem}
+.temoin .position{display:inline-block;font-size:.82rem;padding:.05rem .5rem;margin-left:.4rem;border:1px solid var(--pierre);border-radius:2px;color:var(--pierre)}
+.temoin .position.eclaire{border-color:var(--mer);color:var(--mer)}
+.temoin .position.conteste{border-color:var(--rouge);color:var(--rouge)}
+.temoin .position.reecrit{border-style:dashed}
+.temoin p:last-child{margin-bottom:.4rem}
+.verdict{font-family:var(--display);font-style:italic;font-size:1.25rem;margin-top:1.6rem}
+
+/* Fin : recoudre le monde */
+.fil svg{display:block;width:100%;height:auto;margin-top:1.2rem}
+.fil line{stroke:var(--encre);stroke-width:2;stroke-linecap:round;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
+footer{max-width:62rem;margin:0 auto;padding:2rem 1.25rem 3rem;color:var(--pierre);font-size:.88rem;border-top:1px solid var(--surface)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="sommaire" aria-label="Sommaire">
+  <ul>
+    <li><a href="#sisyphe">Sisyphe</a></li>
+    <li><a href="#absurde">L'absurde</a></li>
+    <li><a href="#revolte">La révolte</a></li>
+    <li><a href="#mesure">La mesure</a></li>
+    <li><a href="#miroirs">Miroirs</a></li>
+    <li><a href="#mots">Les mots</a></li>
+    <li><a href="#engagements">Engagements</a></li>
+    <li><a href="#refus">Refus</a></li>
+    <li><a href="#algerie">Algérie</a></li>
+    <li><a href="#lectures">Lectures</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<header class="couverture">
+  <div>
+    <p class="auteur">Albert Camus</p>
+    <h1>La lucidité</h1>
+    <p class="sous">l'absurde, la révolte, la mesure (1913-1960)</p>
+    <p class="editeur">Un parcours en huit stations</p>
+  </div>
+</header>
+
+<!-- SISYPHE -->
+<section id="sisyphe" aria-labelledby="t-sisyphe" style="max-width:none">
+  <h2 id="t-sisyphe" style="max-width:40rem">Pousse le rocher</h2>
+  <p style="max-width:40rem">Les dieux ont condamné Sisyphe à pousser sans fin un rocher jusqu'au sommet d'une montagne, d'où il retombe toujours. Camus en fait l'image de la condition humaine. Maintiens le bouton enfoncé (ou la barre d'espace) pour monter.</p>
+  <div class="sisyphe">
+    <svg viewBox="0 0 600 300" role="img" aria-labelledby="sis-titre">
+      <title id="sis-titre">Sisyphe poussant son rocher sur une pente</title>
+      <rect class="ciel" x="0" y="0" width="600" height="300"/>
+      <circle id="soleil" class="soleil" cx="520" cy="58" r="16" opacity=".35"/>
+      <polygon class="mont" points="20,280 540,52 590,92 590,280"/>
+      <line class="pente" x1="20" y1="280" x2="540" y2="52"/>
+      <g id="sisyphe-fig">
+        <circle class="trait" id="tete" r="6"/>
+        <line class="trait" id="corps"/>
+        <line class="trait" id="bras"/>
+        <line class="trait" id="jambe1"/>
+        <line class="trait" id="jambe2"/>
+      </g>
+      <g id="rocher">
+        <circle class="rocher" r="22" cx="0" cy="0"/>
+      </g>
+    </svg>
+    <div class="commande">
+      <button id="pousser" type="button">Maintenir pour pousser</button>
+      <p class="etat" id="etat" aria-live="polite">Le rocher attend au pied de la montagne.</p>
+    </div>
+    <p class="heureux" id="heureux">« Il faut imaginer Sisyphe heureux. »<br><small style="font-family:var(--texte);font-style:normal;font-size:.85rem;color:var(--pierre)">Le Mythe de Sisyphe, 1942</small></p>
+  </div>
+  <div style="max-width:40rem">
+    <h3>Qui est Sisyphe ?</h3>
+    <p>Chez Homère, Sisyphe est le plus rusé des mortels. Il a enchaîné la Mort et trompé les dieux pour retourner vivre au soleil. Son châtiment est à la mesure de sa faute : un travail sans fin et sans espoir. Pour Camus, il est le héros absurde par excellence, puni pour son mépris des dieux, sa haine de la mort et sa passion pour la vie.</p>
+    <p>Camus s'arrête sur un instant précis : la descente. Quand le rocher retombe et que Sisyphe redescend le chercher, il a un moment de répit. C'est l'heure de la conscience. Il mesure l'étendue de sa condition, et en la regardant en face, il lui devient supérieur. Le rocher reste le même ; ce qui change, c'est le regard qu'il porte sur lui.</p>
+    <blockquote class="cite">« Il n'est pas de destin qui ne se surmonte par le mépris. »<small>Le Mythe de Sisyphe, 1942</small></blockquote>
+  </div>
+</section>
+
+<!-- ABSURDE -->
+<section id="absurde" aria-labelledby="t-absurde">
+  <h2 id="t-absurde">L'absurde naît d'une rencontre</h2>
+  <p>L'absurde n'est ni dans l'homme ni dans le monde : il naît de leur confrontation. L'homme réclame du sens, de l'unité, de la clarté ; le monde se tait. Ce sentiment peut surgir n'importe quand, au détour d'une routine (lever, tramway, bureau, repas, sommeil) ou devant un paysage soudain étranger.</p>
+  <div class="monde">
+    <form id="form-monde" novalidate>
+      <label for="q">Pose une question au monde</label>
+      <div class="ligne">
+        <input id="q" type="text" autocomplete="off" placeholder="Pourquoi sommes-nous là ?">
+        <button type="submit">Demander</button>
+      </div>
+      <p class="erreur" id="erreur" aria-live="polite"></p>
+    </form>
+    <p class="question" id="question" aria-live="polite"></p>
+    <p class="silence" id="silence" aria-live="polite"></p>
+  </div>
+
+  <blockquote class="cite">« Il n'y a qu'un problème philosophique vraiment sérieux : c'est le suicide. »<small>Le Mythe de Sisyphe, 1942</small></blockquote>
+
+  <p>Si la vie n'a pas de sens, vaut-elle d'être vécue ? Camus examine trois chemins. Choisis-en un.</p>
+  <div class="chemins" role="group" aria-label="Trois réponses à l'absurde">
+    <button type="button" data-chemin="physique" aria-pressed="false">Le suicide</button>
+    <button type="button" data-chemin="philo" aria-pressed="false">Le saut dans la foi</button>
+    <button type="button" data-chemin="revolte" aria-pressed="false">La révolte lucide</button>
+  </div>
+  <div class="reponse" id="reponse" aria-live="polite">
+    <p class="note">Aucun chemin choisi pour l'instant.</p>
+  </div>
+
+  <h3>Ceux qui l'incarnent</h3>
+  <p>Meursault, dans L'Étranger (« Aujourd'hui, maman est morte »), est plus ambigu qu'un simple « homme absurde ». Il a fait table rase des valeurs convenues : le deuil de façade, l'ambition, le mariage comme engagement. Il refuse de mentir sur ce qu'il éprouve, et la société le condamne autant pour cette sincérité que pour son crime. C'est la part nécessaire du dépouillement nihiliste.</p>
+  <p>Mais cette indifférence ne fonde rien. Elle le laisse tuer sans raison, comme par accident, sous le soleil. Ce n'est qu'en prison, face à l'aumônier, qu'il passe de la passivité à une lucidité révoltée et se découvre heureux devant « la tendre indifférence du monde ». Le roman montre ainsi à la fois la nécessité et les limites du nihilisme. Caligula pousse la même logique jusqu'à la tyrannie : si rien n'a de sens, tout serait permis. L'absurde seul ne fonde aucune morale ; il faut aller plus loin.</p>
+</section>
+
+<!-- RÉVOLTE -->
+<section id="revolte" aria-labelledby="t-revolte">
+  <h2 id="t-revolte">Dire non, c'est déjà dire nous</h2>
+  <p>Dans L'Homme révolté (1951), le révolté est celui qui dit non. Mais ce refus contient un oui : en rejetant l'oppression, il affirme une limite et une valeur qui dépassent sa seule personne. La révolte est solidaire dès son premier geste.</p>
+  <div class="foule" id="foule" aria-hidden="true"><span class="pronom" id="pronom">je</span></div>
+  <button type="button" id="dire-non">Dire non</button>
+  <blockquote class="cite">« Je me révolte, donc nous sommes. »<small>L'Homme révolté, 1951</small></blockquote>
+
+  <h3>Révolte ou révolution</h3>
+  <p>Camus distingue la révolte, qui reste fidèle à sa limite, de la révolution qui, au nom d'un avenir radieux, finit par justifier le meurtre. De Saint-Just aux nihilistes russes, puis aux totalitarismes du XXe siècle, il décrit comment l'idée que la fin justifie les moyens a mené à la terreur.</p>
+
+  <h3>La Peste : lutter sans héroïsme</h3>
+  <p>À Oran, le docteur Rieux combat l'épidémie sans croire à la victoire ni à un sauveur. Il fait son métier, avec Tarrou et le modeste Grand. Ce n'est pas de l'héroïsme mais de l'honnêteté. La peste figure tous les fléaux, et notamment l'Occupation.</p>
+
+  <h3>Prométhée, le premier révolté</h3>
+  <p>Le cycle de la révolte est placé sous le signe de Prométhée. Chez Eschyle, le titan vole le feu aux dieux pour le donner aux hommes, puis refuse de se soumettre malgré le supplice. Camus y voit la révolte à l'état pur : un refus prononcé au nom des autres.</p>
+  <p>Mais L'Homme révolté en montre aussi la pente. À force de vouloir libérer l'homme malgré lui, le révolté prométhéen devient César, maître de ceux qu'il prétendait délivrer. Dans « Prométhée aux enfers » (1946, repris dans L'Été), Camus se demande ce qui reste du mythe dans un siècle qui a fait du feu une arme.</p>
+
+  <h3>Les Justes : la limite</h3>
+  <p>Moscou, 1905. Des révolutionnaires préparent un attentat contre le grand-duc. Kaliayev doit lancer la bombe sur sa calèche.</p>
+  <div class="caleche">
+    <button type="button" id="regarder" aria-expanded="false" aria-controls="revele">Regarder dans la calèche</button>
+    <div class="revele" id="revele" hidden>
+      <p>Le grand-duc n'est pas seul : ses deux neveux, des enfants, sont assis à côté de lui. Kaliayev renonce. Pour Camus, même une cause juste ne justifie pas la mort d'innocents. C'est là que la révolte trace sa frontière.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MESURE -->
+<section id="mesure" aria-labelledby="t-mesure" class="journee">
+  <h2 id="t-mesure">Némésis et la pensée de midi</h2>
+  <p>Chez les Grecs, Némésis n'est pas d'abord la vengeance. C'est la déesse de la juste part, qui abat quiconque franchit sa limite et tombe dans l'hubris, la démesure. Camus en fait le mythe de son troisième cycle.</p>
+  <p>Dans « L'Exil d'Hélène » (1948, repris dans L'Été), il oppose les Grecs, qui reconnaissaient des bornes jusque dans la beauté, à l'Europe moderne, qui a exilé la beauté et refuse toute limite. Il y présente Némésis comme une déesse de la mesure plutôt que de la vengeance.</p>
+  <p>L'Homme révolté se termine sur la « pensée de midi » : une révolte qui refuse deux démesures, le nihilisme où rien ne vaut et l'absolu historique où tout se sacrifie à demain. Le mot a deux sens. C'est l'heure du zénith, et c'est le Midi, la Méditerranée, que Camus oppose aux idéologies nées dans les brumes du Nord.</p>
+  <p>Ce cycle devait être celui de l'amour. Camus meurt en janvier 1960 avant de l'écrire ; Le Premier Homme, manuscrit retrouvé dans la voiture, en est l'ébauche.</p>
+
+  <h3>La course du soleil</h3>
+  <p>Camus n'a pensé explicitement que midi. Les autres heures forment ici une lecture proposée à partir de ses propres images : la recherche de l'équilibre comme une journée, avec une montée vers la mesure et une descente qui la met à l'épreuve. Fais avancer le jour et regarde l'ombre de la colonne de Tipasa : à midi, elle est la plus courte.</p>
+  <svg viewBox="0 0 600 250" role="img" aria-labelledby="jour-titre">
+    <title id="jour-titre">Une colonne antique sous le soleil, de l'aube à la nuit</title>
+    <rect id="ciel-jour" x="0" y="0" width="600" height="200" fill="#8CC4EA"/>
+    <g id="etoiles" opacity="0" fill="#F4EFD8">
+      <circle cx="60" cy="40" r="1.6"/><circle cx="130" cy="80" r="1.2"/><circle cx="210" cy="30" r="1.8"/><circle cx="350" cy="55" r="1.3"/><circle cx="420" cy="25" r="1.6"/><circle cx="500" cy="70" r="1.2"/><circle cx="560" cy="35" r="1.7"/><circle cx="260" cy="100" r="1.1"/><circle cx="470" cy="120" r="1.2"/><circle cx="90" cy="130" r="1.1"/>
+    </g>
+    <g id="lune" opacity="0"><circle cx="110" cy="60" r="16" fill="#F1E9C9"/><circle cx="118" cy="54" r="14" id="lune-ombre" fill="#0F1B2E"/></g>
+    <circle id="soleil-jour" r="20" cx="300" cy="40" fill="#E8B931"/>
+    <rect id="sol" x="0" y="200" width="600" height="50" fill="#CFC4AA"/>
+    <polygon id="ombre" points="290,200 310,200 310,212 290,212" fill="#000" opacity=".28"/>
+    <rect x="292" y="112" width="16" height="88" fill="#EFE8D8" stroke="#6E675C" stroke-width="1"/>
+    <rect x="286" y="104" width="28" height="8" fill="#EFE8D8" stroke="#6E675C" stroke-width="1"/>
+    <rect x="288" y="196" width="24" height="5" fill="#EFE8D8" stroke="#6E675C" stroke-width="1"/>
+  </svg>
+  <label for="heure" class="note" style="display:block;margin-top:.6rem">Heure du jour</label>
+  <input id="heure" type="range" min="0" max="100" value="50" aria-describedby="lecture">
+  <div class="bornes"><span>Aube</span><span>Nuit</span></div>
+  <p class="moment" id="moment">Midi</p>
+  <div class="lecture" id="lecture" aria-live="polite"></div>
+</section>
+
+<!-- MIROIRS -->
+<section id="miroirs" aria-labelledby="t-mir">
+  <h2 id="t-mir">Trois mythes, trois miroirs</h2>
+  <p>Chaque cycle a son mythe, et chaque mythe se reflète dans des personnages. Le reflet peut être fidèle, ou déformé : Camus montre aussi ce que devient une idée quand elle perd sa limite. Traverse chaque miroir pour lire le reflet, puis incline-le.</p>
+
+  <div class="miroirs">
+    <div class="miroir" data-vu="false" data-incline="false">
+      <div class="mythe">
+        <p class="nom">Sisyphe</p>
+        <p class="cycle">Cycle de l'absurde</p>
+        <p>Il roule son rocher sans fin. Il est lucide dès le départ, et c'est dans la descente, l'heure de la conscience, qu'il devient supérieur à son destin.</p>
+      </div>
+      <div class="glace" aria-hidden="true"></div>
+      <div class="reflet">
+        <p class="nom"><span class="fidele">Meursault</span><span class="deforme" hidden>Caligula</span></p>
+        <p class="cycle"><span class="fidele-lab">L'Étranger</span><span class="deforme-lab" hidden>Caligula, reflet déformé</span></p>
+        <p class="indice">Le reflet est encore inversé.</p>
+        <p class="texte-fidele" hidden>Il vit la même condition, mais d'abord sans le savoir, dans l'indifférence. Il n'atteint la lucidité de Sisyphe qu'à la fin, en prison, devant la nuit étoilée. Sisyphe sait dès le départ ; Meursault y arrive.<span class="statut">Lecture courante : Camus range lui-même L'Étranger et Le Mythe de Sisyphe dans le même cycle.</span></p>
+        <p class="texte-deforme" hidden>Il a compris la même vérité : « Les hommes meurent et ils ne sont pas heureux. » Mais il en tire le droit de tout faire, jusqu'au meurtre. L'absurde sans limite devient tyrannie.<span class="statut">Lecture de Camus lui-même, qui présente la pièce comme l'histoire d'une erreur.</span></p>
+      </div>
+      <div class="actions">
+        <button type="button" class="traverser">Traverser le miroir</button>
+        <button type="button" class="incliner" aria-pressed="false">Incliner le miroir</button>
+      </div>
+    </div>
+
+    <div class="miroir" data-vu="false" data-incline="false">
+      <div class="mythe">
+        <p class="nom">Prométhée</p>
+        <p class="cycle">Cycle de la révolte</p>
+        <p>Il vole le feu aux dieux pour les hommes et refuse de plier. C'est la révolte au nom des autres, solidaire par essence.</p>
+      </div>
+      <div class="glace" aria-hidden="true"></div>
+      <div class="reflet">
+        <p class="nom"><span class="fidele">Rieux</span><span class="deforme" hidden>Stepan</span></p>
+        <p class="cycle"><span class="fidele-lab">La Peste</span><span class="deforme-lab" hidden>Les Justes, reflet déformé</span></p>
+        <p class="indice">Le reflet est encore inversé.</p>
+        <p class="texte-fidele" hidden>Comme Prométhée, il lutte pour les hommes sans rien attendre du ciel : la médecine est son feu. Avec Tarrou, et comme Kaliayev dans Les Justes, il garde la limite de la révolte.<span class="statut">Lecture courante, déduite du plan des cycles ; Camus ne la formule pas en ces termes.</span></p>
+        <p class="texte-deforme" hidden>Dans Les Justes, Stepan est prêt à tuer des enfants pour la cause. C'est Prométhée devenu César, tel que le décrit L'Homme révolté : le libérateur qui, au nom de l'homme, finit par l'asservir.<span class="statut">Lecture courante : la pièce met en scène le débat sur les limites de la violence.</span></p>
+      </div>
+      <div class="actions">
+        <button type="button" class="traverser">Traverser le miroir</button>
+        <button type="button" class="incliner" aria-pressed="false">Incliner le miroir</button>
+      </div>
+    </div>
+
+    <div class="miroir" data-vu="false" data-incline="false">
+      <div class="mythe">
+        <p class="nom">Némésis</p>
+        <p class="cycle">Cycle de l'amour, inachevé</p>
+        <p>Déesse de la juste part, elle abat ceux qui franchissent leur limite. Camus voulait en faire le mythe de son dernier cycle.</p>
+      </div>
+      <div class="glace" aria-hidden="true"></div>
+      <div class="reflet">
+        <p class="nom"><span class="fidele">Jacques Cormery</span><span class="deforme" hidden>Clamence</span></p>
+        <p class="cycle"><span class="fidele-lab">Le Premier Homme</span><span class="deforme-lab" hidden>La Chute, reflet déformé</span></p>
+        <p class="indice">Le reflet est encore inversé.</p>
+        <p class="texte-fidele" hidden>Fils d'un père mort à la guerre, élevé dans la pauvreté par une mère presque muette, il apprend la mesure par l'amour et la pudeur.<span class="statut">Hypothèse : le cycle de Némésis est resté à l'état de notes et d'ébauche.</span></p>
+        <p class="texte-deforme" hidden>Ancien avocat, il se fait « juge-pénitent » : il s'accuse pour mieux juger tout le monde. Sa chute ressemble à la punition d'une démesure, celle du jugement.<span class="statut">Hypothèse non établie par la critique : Camus n'a rangé La Chute dans aucun cycle.</span></p>
+      </div>
+      <div class="actions">
+        <button type="button" class="traverser">Traverser le miroir</button>
+        <button type="button" class="incliner" aria-pressed="false">Incliner le miroir</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOTS -->
+<section id="mots" aria-labelledby="t-mots">
+  <h2 id="t-mots">Nommer juste</h2>
+  <blockquote class="cite">« Mal nommer les choses, c'est ajouter au malheur du monde. »<small>Poésie 44, 1944</small></blockquote>
+  <p>Pour Camus, le langage abstrait rend la violence acceptable. Touche chaque formule pour la remplacer par ce qu'elle désigne.</p>
+  <div class="mots">
+    <button type="button" aria-pressed="false"><span class="faux">« Les événements d'Algérie »</span><span class="vrai">une guerre</span></button>
+    <button type="button" aria-pressed="false"><span class="faux">« L'expiation légale »</span><span class="vrai">la guillotine</span></button>
+    <button type="button" aria-pressed="false"><span class="faux">« Le sens de l'Histoire »</span><span class="vrai">des morts aujourd'hui pour une promesse</span></button>
+    <button type="button" aria-pressed="false"><span class="faux">« La nouvelle arme »</span><span class="vrai">une ville rasée</span></button>
+  </div>
+</section>
+
+<!-- ENGAGEMENTS -->
+<section id="engagements" aria-labelledby="t-eng">
+  <h2 id="t-eng">Ce pour quoi il s'est engagé</h2>
+  <p>Ses engagements suivent une même ligne : défendre les personnes concrètes contre les systèmes qui les sacrifient.</p>
+  <ol class="chrono">
+    <li><span class="an">1935-1937</span>
+      <details><summary>Un passage au Parti communiste</summary><p>Il adhère, puis est exclu pour sa trop grande proximité avec les nationalistes algériens.</p></details></li>
+    <li><span class="an">1939</span>
+      <details><summary>Misère de la Kabylie</summary><p>Reporter à Alger républicain, il décrit la famine et l'injustice coloniale subies par les Kabyles.</p></details></li>
+    <li><span class="an">1943-1947</span>
+      <details><summary>La Résistance et Combat</summary><p>Rédacteur en chef du journal clandestin Combat, puis du quotidien de la Libération. Il écrit les Lettres à un ami allemand.</p></details></li>
+    <li><span class="an">1945</span>
+      <details><summary>Contre la bombe atomique</summary><p>Le 8 août, presque seul dans la presse, il condamne Hiroshima et parle d'un « dernier degré de sauvagerie ».</p></details></li>
+    <li><span class="an">1946</span>
+      <details><summary>Ni victimes ni bourreaux</summary><p>Série d'articles où il refuse de légitimer le meurtre politique, d'où qu'il vienne.</p></details></li>
+    <li><span class="an">1952-1956</span>
+      <details><summary>Avec les opprimés de l'Est et d'Espagne</summary><p>Il quitte l'Unesco quand l'Espagne franquiste y entre, soutient les ouvriers de Berlin-Est (1953) et l'insurrection de Budapest (1956).</p></details></li>
+    <li><span class="an">1957</span>
+      <details><summary>Contre la peine de mort</summary><p>Réflexions sur la guillotine. Il garde le souvenir de son père, revenu malade d'avoir assisté à une exécution. La même année, il reçoit le prix Nobel et le dédie à son instituteur, Louis Germain.</p></details></li>
+    <li><span class="an">1958</span>
+      <details><summary>Pour les objecteurs de conscience</summary><p>Il soutient la campagne de Louis Lecoin pour leur obtenir un statut légal.</p></details></li>
+  </ol>
+</section>
+
+<!-- REFUS -->
+<section id="refus" aria-labelledby="t-refus">
+  <h2 id="t-refus">Ce qu'il a refusé</h2>
+  <div class="refus">
+    <div>
+      <h3>Les systèmes</h3>
+      <ul>
+        <li>Les totalitarismes, nazi comme soviétique. Il dénonce les camps staliniens quand beaucoup d'intellectuels se taisent.</li>
+        <li>L'historicisme, qui fait de l'Histoire une divinité à qui l'on sacrifie les vivants.</li>
+        <li>Le nihilisme du « tout est permis ».</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Les consolations</h3>
+      <ul>
+        <li>Le saut religieux, qu'il appelle suicide philosophique, sans mépris pour les croyants.</li>
+        <li>L'étiquette « existentialiste », qu'il rejette toujours.</li>
+        <li>L'espoir d'un au-delà qui détourne de la vie présente.</li>
+      </ul>
+    </div>
+  </div>
+  <h3>La rupture avec Sartre (1952)</h3>
+  <p>Dans Les Temps modernes, Francis Jeanson éreinte L'Homme révolté. Camus répond, Sartre réplique. Pour Sartre, Camus fuit l'Histoire ; pour Camus, on ne sacrifie pas les hommes présents aux lendemains promis. Les deux amis ne se reparleront plus.</p>
+</section>
+
+<!-- ALGÉRIE -->
+<section id="algerie" aria-labelledby="t-alg">
+  <h2 id="t-alg">L'Algérie, la position la plus discutée</h2>
+  <p>Né à Mondovi dans une famille pauvre de pieds-noirs, Camus refuse de choisir un camp contre l'autre lorsque la guerre éclate.</p>
+  <div class="balance">
+    <div class="plateau">Contre la répression et la torture menées par l'armée française</div>
+    <div class="fleau">La trêve civile, Alger, janvier 1956</div>
+    <div class="plateau">Contre les attentats du FLN visant les civils</div>
+  </div>
+  <p>Il défend une Algérie fédérale où coexisteraient les deux communautés, sans soutenir l'indépendance. Après l'échec de son appel, il se tait en public mais intervient en privé pour obtenir la grâce de condamnés algériens. À Stockholm, interpellé par un étudiant, il oppose aux bombes des tramways d'Alger la vie de sa mère, qui pourrait s'y trouver. Ses critiques y voient un aveuglement colonial, ses défenseurs le refus constant de tuer des innocents. Le débat reste ouvert.</p>
+</section>
+
+<!-- LECTURES -->
+<section id="lectures" aria-labelledby="t-lec">
+  <h2 id="t-lec">Le procès des lectures</h2>
+  <p>Meursault est jugé moins pour son crime que pour ce qu'il est. L'œuvre de Camus a connu un sort voisin : chaque époque l'a relue, éclairée ou mise en accusation. Voici les témoins les plus marquants. Trie-les par œuvre ou par position.</p>
+
+  <div class="filtres">
+    <p id="lab-oeuvre">Œuvre</p>
+    <div class="chemins" role="group" aria-labelledby="lab-oeuvre" data-filtre="oeuvre">
+      <button type="button" data-val="tout" aria-pressed="true">Toutes</button>
+      <button type="button" data-val="etranger" aria-pressed="false">L'Étranger</button>
+      <button type="button" data-val="peste" aria-pressed="false">La Peste</button>
+      <button type="button" data-val="revolte" aria-pressed="false">L'Homme révolté</button>
+      <button type="button" data-val="chute" aria-pressed="false">La Chute</button>
+      <button type="button" data-val="oeuvre" aria-pressed="false">L'œuvre entière</button>
+    </div>
+    <p id="lab-pos">Position du témoin</p>
+    <div class="chemins" role="group" aria-labelledby="lab-pos" data-filtre="pos">
+      <button type="button" data-val="tout" aria-pressed="true">Toutes</button>
+      <button type="button" data-val="eclaire" aria-pressed="false">Éclaire</button>
+      <button type="button" data-val="conteste" aria-pressed="false">Conteste</button>
+      <button type="button" data-val="reecrit" aria-pressed="false">Réécrit</button>
+    </div>
+    <p class="decompte" id="decompte" aria-live="polite"></p>
+  </div>
+
+  <ul class="temoins">
+    <li class="temoin" data-oeuvre="etranger" data-pos="eclaire">
+      <p class="qui">Jean-Paul Sartre <span class="position eclaire">éclaire</span></p>
+      <p class="ou">« Explication de L'Étranger », Cahiers du Sud, 1943</p>
+      <p>Sartre lit le roman à la lumière du Mythe de Sisyphe, paru la même année. Il montre que la forme porte la pensée : des phrases courtes, juxtaposées, sans liens de cause, qui découpent le temps en instants isolés. Le lecteur éprouve l'absurde avant de le comprendre. Il rapproche ce style de celui de Hemingway.</p>
+    </li>
+    <li class="temoin" data-oeuvre="etranger" data-pos="conteste">
+      <p class="qui">Nathalie Sarraute <span class="position conteste">conteste</span></p>
+      <p class="ou">« De Dostoïevski à Kafka », Les Temps modernes, 1947</p>
+      <p>Pour Sarraute, la surface lisse de Meursault est un artifice. Sous l'apparente absence de psychologie, on devine des émotions que la technique refuse de nommer. Le personnage serait moins vide qu'il ne le paraît, et le procédé plus construit qu'il ne le prétend.</p>
+    </li>
+    <li class="temoin" data-oeuvre="etranger" data-pos="eclaire">
+      <p class="qui">Roland Barthes <span class="position eclaire">éclaire</span></p>
+      <p class="ou">Le Degré zéro de l'écriture, 1953</p>
+      <p>Barthes voit dans L'Étranger le modèle d'une « écriture blanche » : neutre, sans ornement, presque absente, comme une manière de refuser les codes littéraires bourgeois. Il note aussi le paradoxe : cette neutralité finit elle-même par devenir un style reconnaissable, que l'on imite.</p>
+    </li>
+    <li class="temoin" data-oeuvre="peste" data-pos="conteste">
+      <p class="qui">Roland Barthes <span class="position conteste">conteste</span></p>
+      <p class="ou">Article sur La Peste, revue Club, 1955</p>
+      <p>Barthes reproche à l'allégorie de transformer l'Occupation en fléau naturel : la peste n'a ni visage ni responsables humains. La morale qui en découle, une solidarité généreuse mais hors de l'histoire, ne dit rien de la lutte contre des hommes. Camus lui répond par une lettre où il rappelle le contenu résistant du livre.</p>
+    </li>
+    <li class="temoin" data-oeuvre="revolte" data-pos="conteste">
+      <p class="qui">Francis Jeanson <span class="position conteste">conteste</span></p>
+      <p class="ou">« Albert Camus ou l'âme révoltée », Les Temps modernes, 1952</p>
+      <p>Jeanson juge la révolte camusienne immobile : une morale de « belle âme » qui refuse de se salir les mains et, en condamnant la révolution, sert objectivement l'ordre établi. C'est l'article qui déclenche la rupture entre Camus et Sartre.</p>
+    </li>
+    <li class="temoin" data-oeuvre="etranger" data-pos="conteste">
+      <p class="qui">René Girard <span class="position conteste">conteste</span></p>
+      <p class="ou">« Pour un nouveau procès de L'Étranger », 1964</p>
+      <p>Girard rejuge le procès et le trouve truqué : aucun tribunal réel ne condamnerait à mort pour un manque de larmes à un enterrement. Meursault, selon lui, cherche sa condamnation pour se prouver supérieur aux juges. Le roman relèverait d'un ressentiment romantique, que Camus aurait lui-même démasqué plus tard dans La Chute.</p>
+    </li>
+    <li class="temoin" data-oeuvre="chute" data-pos="eclaire">
+      <p class="qui">Les lectures de La Chute <span class="position eclaire">éclaire</span></p>
+      <p class="ou">Critique depuis 1956</p>
+      <p>Clamence, ancien avocat devenu « juge-pénitent », s'accuse pour mieux accuser les autres. La critique y lit à la fois une satire des intellectuels parisiens qui jugent le monde depuis leur bonne conscience, au lendemain de la rupture avec Sartre, et une autocritique de Camus lui-même, de sa propre tentation de la vertu.</p>
+    </li>
+    <li class="temoin" data-oeuvre="oeuvre" data-pos="conteste">
+      <p class="qui">Conor Cruise O'Brien <span class="position conteste">conteste</span></p>
+      <p class="ou">Camus, 1970</p>
+      <p>Première grande lecture coloniale. L'Arabe tué par Meursault n'a pas de nom, et le procès est invraisemblable : dans l'Algérie des années 1940, un Européen n'aurait guère été condamné à mort pour ce meurtre. Dans La Peste, Oran semble vidée de sa population arabe. La fiction efface ce que la politique de Camus refuse de voir.</p>
+    </li>
+    <li class="temoin" data-oeuvre="oeuvre" data-pos="conteste">
+      <p class="qui">Edward Said <span class="position conteste">conteste</span></p>
+      <p class="ou">Culture et impérialisme, 1993</p>
+      <p>Said prolonge O'Brien : les romans de Camus présentent la présence française en Algérie comme naturelle et intemporelle. Les Algériens n'y sont qu'un arrière-plan. L'œuvre participe, sans le dire, à une géographie coloniale.</p>
+    </li>
+    <li class="temoin" data-oeuvre="oeuvre" data-pos="eclaire">
+      <p class="qui">Tony Judt <span class="position eclaire">éclaire</span></p>
+      <p class="ou">Le Fardeau de la responsabilité, 1998</p>
+      <p>L'historien fait de Camus, avec Léon Blum et Raymond Aron, une conscience morale qui a eu raison contre son époque sur le totalitarisme soviétique. Il voit dans son silence sur l'Algérie moins une lâcheté qu'un déchirement honnête, assumé jusqu'au bout.</p>
+    </li>
+    <li class="temoin" data-oeuvre="revolte" data-pos="eclaire">
+      <p class="qui">Michel Onfray <span class="position eclaire">éclaire</span></p>
+      <p class="ou">L'Ordre libertaire, 2012</p>
+      <p>Onfray fait de Camus un penseur libertaire, proche de l'anarchisme et du syndicalisme, opposé à la gauche autoritaire. La lecture est stimulante mais discutée : beaucoup y voient un portrait taillé pour servir la charge d'Onfray contre Sartre.</p>
+    </li>
+    <li class="temoin" data-oeuvre="etranger" data-pos="reecrit">
+      <p class="qui">Kamel Daoud <span class="position reecrit">réécrit</span></p>
+      <p class="ou">Meursault, contre-enquête, 2013, Goncourt du premier roman 2015</p>
+      <p>Plutôt qu'une critique, un roman-réponse. Haroun, le frère de l'Arabe tué, raconte. La victime reçoit enfin un nom, Moussa, une famille et une histoire. Daoud dialogue avec Camus plus qu'il ne le condamne, et retourne contre l'Algérie indépendante la même lucidité.</p>
+    </li>
+    <li class="temoin" data-oeuvre="etranger" data-pos="eclaire">
+      <p class="qui">Alice Kaplan <span class="position eclaire">éclaire</span></p>
+      <p class="ou">En quête de L'Étranger, 2016</p>
+      <p>Kaplan reconstitue la genèse du roman : les années de pauvreté et de maladie de Camus, les faits divers d'Oran et d'Alger qui l'ont nourri, puis l'étrange destin d'un livre publié sous l'Occupation, avec l'aval de la censure allemande.</p>
+    </li>
+  </ul>
+  <p class="verdict">Clamence juge les autres pour mieux s'absoudre. Ici, pas de verdict : le jugement te revient.</p>
+</section>
+
+<!-- FIN -->
+<section id="fin" aria-labelledby="t-fin" class="fil">
+  <h2 id="t-fin">Empêcher que le monde se défasse</h2>
+  <p>Dans son discours du Nobel, Camus dit que sa génération ne refera pas le monde, mais que sa tâche est peut-être plus grande : empêcher qu'il se défasse.</p>
+  <svg viewBox="0 0 600 120" role="img" aria-labelledby="fil-titre" id="fil-svg">
+    <title id="fil-titre">Un fil rompu en morceaux</title>
+  </svg>
+  <button type="button" id="recoudre" style="margin-top:1rem">Recoudre</button>
+</section>
+
+</main>
+
+<footer>
+  <p>Les citations sont brèves et issues des œuvres d'Albert Camus (Gallimard), reproduites à des fins d'étude. Ce parcours est une introduction : lisez les livres.</p>
+</footer>
+
+<script>
+(function(){
+  const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- SISYPHE ---------- */
+  const A = {x:20,y:280}, B = {x:540,y:52};
+  const dx = B.x-A.x, dy = B.y-A.y, L = Math.hypot(dx,dy);
+  const d = {x:dx/L, y:dy/L}, n = {x:d.y, y:-d.x};
+  const R = 22;
+  let t = 0.04, appui = false, chute = false, montees = 0;
+  const rocher = document.getElementById('rocher');
+  const etat = document.getElementById('etat');
+  const btn = document.getElementById('pousser');
+  const soleil = document.getElementById('soleil');
+  const heureux = document.getElementById('heureux');
+  const set = (id,a) => { const el=document.getElementById(id); for(const k in a) el.setAttribute(k,a[k]); };
+
+  function dessiner(){
+    const p = {x:A.x+dx*t, y:A.y+dy*t};
+    const c = {x:p.x+n.x*R, y:p.y+n.y*R};
+    const ang = (t*L/R)*180/Math.PI;
+    rocher.setAttribute('transform',`translate(${c.x},${c.y}) rotate(${ang})`);
+    const pied = {x:p.x-d.x*42, y:p.y-d.y*42};
+    const lean = chute ? 0.2 : 0.75;
+    const hanche = {x:pied.x+n.x*20+d.x*6, y:pied.y+n.y*20+d.y*6};
+    const epaule = {x:hanche.x+n.x*16*(1-lean*0.4)+d.x*14*lean, y:hanche.y+n.y*16*(1-lean*0.4)+d.y*14*lean};
+    set('corps',{x1:hanche.x,y1:hanche.y,x2:epaule.x,y2:epaule.y});
+    set('tete',{cx:epaule.x+n.x*7+d.x*3,cy:epaule.y+n.y*7+d.y*3});
+    const main = {x:c.x-d.x*R*0.9, y:c.y-d.y*R*0.9};
+    set('bras',{x1:epaule.x,y1:epaule.y,x2: chute?epaule.x-d.x*6:main.x, y2: chute?epaule.y+8:main.y});
+    const pas = Math.sin(t*90)*5;
+    set('jambe1',{x1:hanche.x,y1:hanche.y,x2:pied.x+d.x*pas,y2:pied.y+d.y*pas});
+    set('jambe2',{x1:hanche.x,y1:hanche.y,x2:pied.x-d.x*(10+pas),y2:pied.y-d.y*(10+pas)});
+  }
+
+  function boucle(){
+    if(chute){
+      t -= reduit ? 1 : 0.018;
+      if(t <= 0.04){ t = 0.04; chute = false; montees++; finChute(); }
+    } else if(appui){
+      t += 0.0042*(1 - t*0.45);
+      if(t >= 0.93){ chute = true; etat.textContent = 'Au sommet, le rocher retombe.'; }
+    } else if(t > 0.04){
+      t = Math.max(0.04, t - 0.006);
+    }
+    dessiner();
+    requestAnimationFrame(boucle);
+  }
+  function finChute(){
+    if(montees >= 3){
+      etat.textContent = `Montées : ${montees}. Il redescend vers son rocher, conscient de son sort.`;
+      heureux.classList.add('visible');
+      soleil.setAttribute('opacity','1'); soleil.setAttribute('r','22');
+    } else {
+      etat.textContent = `Montées : ${montees}. Le rocher est revenu au pied de la montagne. Recommence.`;
+    }
+  }
+  const debut = e => { if(e) e.preventDefault(); if(e && e.pointerId!==undefined && btn.setPointerCapture){ try{ btn.setPointerCapture(e.pointerId); }catch(_){} } if(!chute){ appui = true; etat.textContent = 'Tu pousses…'; } };
+  const fin = () => { if(appui && !chute) etat.textContent = 'Tu relâches : le rocher glisse.'; appui = false; };
+  btn.addEventListener('pointerdown', debut);
+  ['pointerup','pointercancel','lostpointercapture'].forEach(ev => btn.addEventListener(ev, fin));
+  btn.addEventListener('keydown', e => { if((e.key===' '||e.key==='Enter') && !e.repeat) debut(e); });
+  btn.addEventListener('keyup', e => { if(e.key===' '||e.key==='Enter') fin(); });
+  btn.addEventListener('contextmenu', e => e.preventDefault());
+  dessiner(); requestAnimationFrame(boucle);
+
+  /* ---------- ABSURDE : le monde se tait ---------- */
+  const form = document.getElementById('form-monde'), q = document.getElementById('q');
+  const err = document.getElementById('erreur'), qOut = document.getElementById('question'), sil = document.getElementById('silence');
+  let nbQuestions = 0;
+  const silences = [
+    'Le monde ne répond pas.',
+    'Toujours rien. Le silence ne vient pas de toi.',
+    'L\'absurde, c\'est cette rencontre entre ton appel et ce silence.'
+  ];
+  q.addEventListener('input', () => { err.textContent = ''; });
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const v = q.value.trim();
+    if(!v){ err.textContent = 'Écris d\'abord une question.'; q.focus(); return; }
+    qOut.classList.remove('efface'); sil.textContent = '';
+    qOut.textContent = '« ' + v + ' »';
+    q.value = '';
+    setTimeout(() => qOut.classList.add('efface'), reduit ? 0 : 900);
+    setTimeout(() => { sil.textContent = silences[Math.min(nbQuestions, silences.length-1)]; nbQuestions++; }, reduit ? 0 : 3000);
+  });
+
+  /* ---------- TROIS CHEMINS ---------- */
+  const textes = {
+    physique: '<h3 class="barre">Le suicide</h3><p>Camus le refuse : c\'est consentir à l\'absurde et le supprimer au lieu de l\'affronter. Le suicide résout l\'absurde en abolissant l\'un de ses deux termes, l\'homme.</p>',
+    philo: '<h3 class="barre">Le saut dans la foi</h3><p>Camus l\'appelle suicide philosophique. Kierkegaard, Chestov ou Jaspers partent de l\'absurde puis s\'en échappent en divinisant ce qui les écrase. C\'est renoncer à la lucidité.</p>',
+    revolte: '<h3>La révolte lucide</h3><p>Garder l\'absurde vivant, sans espoir mais sans résignation. Il en découle trois conséquences : la révolte (refuser sans cesse), la liberté (aucun destin n\'est écrit) et la passion (vivre le plus intensément possible ce monde-ci). Sisyphe en est le héros.</p>'
+  };
+  const boutonsChemin = document.querySelectorAll('[data-chemin]');
+  boutonsChemin.forEach(b => b.addEventListener('click', () => {
+    boutonsChemin.forEach(x => x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true');
+    document.getElementById('reponse').innerHTML = textes[b.dataset.chemin];
+  }));
+
+  /* ---------- RÉVOLTE : je → nous ---------- */
+  const foule = document.getElementById('foule'), pronom = document.getElementById('pronom'), dire = document.getElementById('dire-non');
+  const N = 46; const points = [];
+  for(let i=0;i<N;i++){
+    const s = document.createElement('span');
+    s.style.left = '50%'; s.style.bottom = '0.6rem';
+    s.style.opacity = i===0 ? '1' : '0';
+    foule.appendChild(s); points.push(s);
+  }
+  let nous = false;
+  dire.addEventListener('click', () => {
+    nous = !nous;
+    const w = foule.clientWidth, h = foule.clientHeight;
+    points.forEach((s,i) => {
+      if(nous){
+        const col = i % 12, rang = Math.floor(i/12);
+        const x = (col - 5.5) * Math.min(26, w/14) + (rang%2)*8;
+        const y = -rang * 24;
+        s.style.opacity = '1';
+        s.style.transform = `translate(${x}px, ${y}px)`;
+        s.style.transitionDelay = reduit ? '0s' : (i*0.018)+'s';
+      } else {
+        s.style.transitionDelay = '0s';
+        s.style.transform = 'translate(0,0)';
+        s.style.opacity = i===0 ? '1' : '0';
+      }
+    });
+    pronom.textContent = nous ? 'nous' : 'je';
+    dire.textContent = nous ? 'Recommencer' : 'Dire non';
+  });
+
+  /* ---------- LES JUSTES ---------- */
+  const reg = document.getElementById('regarder'), rev = document.getElementById('revele');
+  reg.addEventListener('click', () => {
+    const ouvert = rev.hidden;
+    rev.hidden = !ouvert;
+    reg.setAttribute('aria-expanded', String(ouvert));
+    reg.textContent = ouvert ? 'Refermer' : 'Regarder dans la calèche';
+  });
+
+  /* ---------- COURSE DU SOLEIL ---------- */
+  const heure = document.getElementById('heure');
+  const cielJ = document.getElementById('ciel-jour'), solJ = document.getElementById('soleil-jour');
+  const ombre = document.getElementById('ombre'), sol = document.getElementById('sol');
+  const etoiles = document.getElementById('etoiles'), lune = document.getElementById('lune'), luneOmbre = document.getElementById('lune-ombre');
+  const momentEl = document.getElementById('moment'), lectureEl = document.getElementById('lecture');
+  const cles = [[0,'#2B3150'],[8,'#E6A98F'],[22,'#BBD7EA'],[50,'#8CC4EA'],[72,'#E9A365'],[84,'#5B4672'],[100,'#0F1B2E']];
+  const hex = h => [1,3,5].map(i => parseInt(h.slice(i,i+2),16));
+  const mix = (a,b,k) => '#' + hex(a).map((v,i) => Math.round(v + (hex(b)[i]-v)*k).toString(16).padStart(2,'0')).join('');
+  function couleur(t){
+    for(let i=0;i<cles.length-1;i++){
+      const [t0,c0] = cles[i], [t1,c1] = cles[i+1];
+      if(t <= t1) return mix(c0, c1, (t-t0)/(t1-t0));
+    }
+    return cles[cles.length-1][1];
+  }
+  const moments = [
+    {max:14, titre:"L'aube", texte:"<p>L'éveil. Dans Le Mythe de Sisyphe, l'absurde surgit le jour où, au milieu de la routine, le « pourquoi » s'élève. La conscience se lève comme un jour. C'est le premier pas vers l'équilibre : on ne peut tenir la mesure qu'après avoir ouvert les yeux.</p><p>Mais l'aube a son double. C'est l'heure des exécutions, que Meursault guette dans sa cellule, et l'heure de l'espoir, que Camus tient pour une esquive : attendre un lendemain, c'est déjà quitter le présent.</p>"},
+    {max:38, titre:"Le matin", texte:"<p>Le matin du monde, celui de Noces (1938). À Tipasa, au printemps, Camus célèbre l'accord du corps avec la mer, les ruines et la lumière : un bonheur sans au-delà, dans l'innocence de la jeunesse.</p><p>Il retrouvera ce matin des années plus tard, dans « Retour à Tipasa » : « Au milieu de l'hiver, j'apprenais enfin qu'il y avait en moi un été invincible. »</p>"},
+    {max:62, titre:"Midi", texte:"<p>L'équilibre, l'heure où l'ombre est la plus courte : la pensée de midi, sous le regard de Némésis. Ce n'est pas un repos mais une tension, tenue à chaque instant entre deux démesures.</p><p>D'où sa fragilité. Sur la plage de L'Étranger, Meursault est à midi sans le savoir : il vit au plus près du monde, dans une mesure qu'il ignore, et le soleil l'éblouit jusqu'au meurtre. Un équilibre inconscient n'est pas encore la mesure ; il faut la lucidité pour la tenir.</p>"},
+    {max:84, titre:"Le crépuscule", texte:"<p>La descente. C'est en redescendant vers son rocher que Sisyphe intéresse Camus : l'heure de la conscience, où l'on regarde sa condition sans fuir. Dans « Le Vent à Djémila » (Noces), devant une ville morte, Camus regarde de même sa propre fin en face, sans consolation.</p><p>Le crépuscule a lui aussi son double : le déclin des absolus. Camus hérite de Nietzsche cette fin des idoles, mais refuse d'en conclure que tout est permis. C'est l'heure où l'on peut garder en conscience la lumière de midi, ou glisser vers la nuit.</p>"},
+    {max:101, titre:"La nuit", texte:"<p>Elle a deux visages. Il y a la nuit étoilée où Meursault s'ouvre enfin à « la tendre indifférence du monde », et le bain nocturne de Rieux et Tarrou dans La Peste, une heure d'amitié arrachée à l'épidémie.</p><p>Il y a aussi la lune que réclame Caligula, image du désir d'impossible et de la démesure, et la nuit des idéologies dans laquelle L'Homme révolté voit l'Europe plongée.</p>"}
+  ];
+  let momentCourant = null;
+  function journee(){
+    const t = +heure.value;
+    cielJ.setAttribute('fill', couleur(t));
+    const leve = 8, couche = 84;
+    const jour = t >= leve && t <= couche;
+    const nuit = Math.max(0, t > couche ? (t-couche)/12 : (leve-t)/8);
+    etoiles.setAttribute('opacity', Math.min(1, nuit).toFixed(2));
+    lune.setAttribute('opacity', Math.min(1, nuit).toFixed(2));
+    luneOmbre.setAttribute('fill', couleur(t));
+    sol.setAttribute('fill', mix('#CFC4AA', '#3B3A42', Math.min(1, nuit)));
+    if(jour){
+      const u = (t-leve)/(couche-leve), th = Math.PI*(1-u);
+      const sx = 300 + 260*Math.cos(th), sy = 200 - 170*Math.sin(th);
+      solJ.setAttribute('cx', sx.toFixed(1)); solJ.setAttribute('cy', sy.toFixed(1));
+      solJ.setAttribute('opacity','1');
+      solJ.setAttribute('fill', mix('#E0703A', '#E8B931', Math.min(1, Math.sin(th)*2)));
+      const elev = Math.max(0.06, Math.atan2(200 - sy, Math.abs(sx - 300) + 1));
+      const L = Math.min(290, 88 / Math.tan(elev));
+      const dir = sx > 300 ? -1 : 1;
+      ombre.setAttribute('points', `292,200 308,200 ${(308 + dir*L).toFixed(1)},214 ${(292 + dir*L).toFixed(1)},214`);
+      ombre.setAttribute('opacity', (0.32*Math.min(1, Math.sin(th)*3)).toFixed(2));
+    } else {
+      solJ.setAttribute('opacity','0');
+      ombre.setAttribute('opacity','0');
+    }
+    const m = moments.find(x => t < x.max);
+    if(m !== momentCourant){
+      momentCourant = m;
+      momentEl.textContent = m.titre;
+      lectureEl.innerHTML = m.texte;
+    }
+  }
+  heure.addEventListener('input', journee); journee();
+
+  /* ---------- MIROIRS ---------- */
+  document.querySelectorAll('.miroir').forEach(m => {
+    const trav = m.querySelector('.traverser'), inc = m.querySelector('.incliner');
+    const q = sel => m.querySelectorAll(sel);
+    function maj(){
+      const vu = m.dataset.vu === 'true', incline = m.dataset.incline === 'true';
+      q('.fidele, .fidele-lab').forEach(e => e.hidden = incline);
+      q('.deforme, .deforme-lab').forEach(e => e.hidden = !incline);
+      q('.texte-fidele').forEach(e => e.hidden = !(vu && !incline));
+      q('.texte-deforme').forEach(e => e.hidden = !incline);
+      q('.indice').forEach(e => e.hidden = vu || incline);
+      trav.textContent = vu ? 'Revenir devant le miroir' : 'Traverser le miroir';
+      inc.setAttribute('aria-pressed', String(incline));
+      inc.textContent = incline ? 'Redresser le miroir' : 'Incliner le miroir';
+    }
+    trav.addEventListener('click', () => { m.dataset.vu = m.dataset.vu === 'true' ? 'false' : 'true'; if(m.dataset.vu === 'true') m.dataset.incline = 'false'; maj(); });
+    inc.addEventListener('click', () => { m.dataset.incline = m.dataset.incline === 'true' ? 'false' : 'true'; maj(); });
+    maj();
+  });
+
+  /* ---------- MAL NOMMER ---------- */
+  document.querySelectorAll('.mots button').forEach(b => b.addEventListener('click', () => {
+    b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+  }));
+
+  /* ---------- LECTURES ---------- */
+  const filtres = {oeuvre:'tout', pos:'tout'};
+  const temoins = document.querySelectorAll('.temoin');
+  const decompte = document.getElementById('decompte');
+  function filtrer(){
+    let n = 0, c = 0, e = 0, r = 0;
+    temoins.forEach(li => {
+      const ok = (filtres.oeuvre==='tout' || li.dataset.oeuvre===filtres.oeuvre) && (filtres.pos==='tout' || li.dataset.pos===filtres.pos);
+      li.hidden = !ok;
+      if(ok){ n++; if(li.dataset.pos==='conteste') c++; else if(li.dataset.pos==='eclaire') e++; else r++; }
+    });
+    const parts = [];
+    if(e) parts.push(e + ' éclaire' + (e>1?'nt':''));
+    if(c) parts.push(c + ' conteste' + (c>1?'nt':''));
+    if(r) parts.push(r + ' réécri' + (r>1?'vent':'t'));
+    decompte.textContent = n ? `${n} témoin${n>1?'s':''} : ${parts.join(', ')}.` : 'Aucun témoin pour cette combinaison. Élargis un des deux filtres.';
+  }
+  document.querySelectorAll('[data-filtre]').forEach(groupe => {
+    const boutons = groupe.querySelectorAll('button');
+    boutons.forEach(b => b.addEventListener('click', () => {
+      boutons.forEach(x => x.setAttribute('aria-pressed','false'));
+      b.setAttribute('aria-pressed','true');
+      filtres[groupe.dataset.filtre] = b.dataset.val;
+      filtrer();
+    }));
+  });
+  filtrer();
+
+  /* ---------- RECOUDRE ---------- */
+  const svgFil = document.getElementById('fil-svg'), rec = document.getElementById('recoudre');
+  const ns = 'http://www.w3.org/2000/svg', segs = [];
+  const nb = 14, larg = 560/nb;
+  for(let i=0;i<nb;i++){
+    const l = document.createElementNS(ns,'line');
+    const x1 = 20 + i*larg, x2 = x1 + larg;
+    l.setAttribute('x1', x1); l.setAttribute('x2', x2); l.setAttribute('y1', 60); l.setAttribute('y2', 60);
+    l.style.transformBox = 'fill-box'; l.style.transformOrigin = 'center';
+    svgFil.appendChild(l); segs.push(l);
+  }
+  function defaire(){
+    segs.forEach((l,i) => {
+      const r = Math.sin(i*12.9898)*43758.5453; const f = r - Math.floor(r);
+      l.style.transform = `translate(${(f-0.5)*16}px, ${(f-0.5)*70}px) rotate(${(f-0.5)*70}deg)`;
+    });
+  }
+  let cousu = false; defaire();
+  rec.addEventListener('click', () => {
+    cousu = !cousu;
+    if(cousu){ segs.forEach((l,i) => { l.style.transitionDelay = reduit ? '0s' : (i*0.06)+'s'; l.style.transform = 'none'; }); }
+    else { segs.forEach(l => l.style.transitionDelay = '0s'); defaire(); }
+    rec.textContent = cousu ? 'Laisser se défaire' : 'Recoudre';
+    svgFil.querySelector('title').textContent = cousu ? 'Un fil recousu' : 'Un fil rompu en morceaux';
+  });
+})();
+</script>
+</body>
+</html>
