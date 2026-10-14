@@ -33,12 +33,12 @@ a{color:var(--mer)}
 img,svg{max-width:100%}
 
 nav.sommaire{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--chaux);border-bottom:1px solid var(--surface)}
-nav.sommaire ul{list-style:none;margin:0 auto;padding:.6rem 1.25rem;display:flex;gap:1.4rem;overflow-x:auto;max-width:62rem;scrollbar-width:none}
+nav.sommaire ul{list-style:none;margin:0 auto;padding:.6rem clamp(1.25rem,4vw,4rem);display:flex;gap:1.4rem;overflow-x:auto;max-width:none;scrollbar-width:none}
 nav.sommaire a{text-decoration:none;color:var(--pierre);font-size:.92rem;white-space:nowrap}
 nav.sommaire a:hover{color:var(--encre)}
 
-main{max-width:62rem;margin:0 auto;padding:0 1.25rem 6rem}
-section{padding:4.5rem 0 1rem;max-width:40rem}
+main{max-width:none;margin:0;padding:0 clamp(1.25rem,4vw,4rem) 6rem}
+section{padding:4.5rem 0 1rem;max-width:none}
 h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.1;margin:0}
 h2{font-size:clamp(2rem,5vw,2.8rem);margin-bottom:1.2rem}
 h3{font-size:1.35rem;margin:1.8rem 0 .5rem}
@@ -54,7 +54,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 #pousser{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 
 /* Couverture façon collection Blanche */
-.couverture{margin:2.5rem auto 0;max-width:46rem;border:2px solid var(--encre);padding:6px}
+.couverture{margin:2.5rem auto 0;max-width:none;border:2px solid var(--encre);padding:6px}
 .couverture>div{border:1px solid var(--rouge);padding:2.2rem 1.5rem 1.2rem;text-align:center}
 .couverture .auteur{font-family:var(--display);font-size:1.15rem;letter-spacing:.06em;margin-bottom:.6rem}
 .couverture h1{font-size:clamp(2.6rem,9vw,4.6rem);color:var(--rouge)}
@@ -63,7 +63,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 
 /* Sisyphe */
 .sisyphe{margin:2rem 0 0}
-.sisyphe svg{display:block;width:100%;height:auto;touch-action:none;user-select:none}
+.sisyphe svg{display:block;width:100%;height:auto;max-height:75vh;touch-action:none;user-select:none}
 .ciel{fill:var(--chaux)}
 .mont{fill:var(--montagne)}
 .pente{stroke:var(--encre);stroke-width:1.5;fill:none}
@@ -111,7 +111,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 
 /* Cycles */
 section.cycle{max-width:none;padding-top:5.5rem}
-.cycle > *{max-width:40rem}
+.cycle > *{max-width:none}
 .cycle > .large{max-width:none}
 .cycle-tete{display:flex;gap:1.2rem;align-items:flex-end;border-bottom:1px solid var(--rouge);padding-bottom:.9rem;margin-bottom:1.4rem}
 .cycle-tete .num{font-family:var(--display);font-size:clamp(3.6rem,11vw,5.6rem);line-height:.85;color:var(--rouge)}
@@ -127,19 +127,19 @@ section.cycle{max-width:none;padding-top:5.5rem}
 
 /* Les Justes */
 .caleche{margin-top:1.2rem}
-.caleche svg{display:block;width:100%;height:auto;max-width:46rem}
+.caleche svg{display:block;width:100%;height:auto;max-height:75vh}
 #caleche{transition:transform 2.4s cubic-bezier(.25,.7,.3,1)}
 .roue{fill:none;stroke:var(--encre);stroke-width:1.5}
 .passagers circle{fill:var(--encre)}
 .rideau{fill:var(--pierre);transition:opacity .9s ease}
 .bombe{fill:var(--encre)}
 .voile{fill:var(--encre);opacity:0;pointer-events:none;transition:opacity 1.6s ease}
-.cal-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem;max-width:40rem}
+.cal-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem;max-width:none}
 .cal-actions button{font-size:.95rem}
-.recit{max-width:40rem;margin-top:1rem;min-height:6em}
+.recit{max-width:none;margin-top:1rem;min-height:6em}
 
 /* Mesure : Némésis et course du soleil */
-.journee svg.jour{display:block;width:100%;height:auto;margin-top:1rem}
+.journee svg.jour{display:block;width:100%;height:auto;max-height:75vh;margin-top:1rem}
 .journee input[type=range]{width:100%;margin:1rem 0 .3rem;accent-color:var(--mer)}
 .bornes{display:flex;justify-content:space-between;font-size:.88rem;color:var(--pierre)}
 .moment{font-family:var(--display);font-size:clamp(1.8rem,5vw,2.4rem);margin:1.2rem 0 .4rem}
@@ -212,7 +212,7 @@ section.cycle{max-width:none;padding-top:5.5rem}
 /* Fin : recoudre le monde */
 .fil svg{display:block;width:100%;height:auto;margin-top:1.2rem}
 .fil line{stroke:var(--encre);stroke-width:2;stroke-linecap:round;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
-footer{max-width:62rem;margin:0 auto;padding:2rem 1.25rem 3rem;color:var(--pierre);font-size:.88rem;border-top:1px solid var(--surface)}
+footer{max-width:none;margin:0;padding:2rem clamp(1.25rem,4vw,4rem) 3rem;color:var(--pierre);font-size:.88rem;border-top:1px solid var(--surface)}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
